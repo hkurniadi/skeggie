@@ -43,6 +43,9 @@ class UsersController < ApplicationController
       
       elsif user_params.has_key?('current_courses')
         redirect_to :back, alert: "Succesfully updated cart!"
+      
+      elsif user_params.has_key?('friend_ids')
+        redirect_to :back, alert: "Updated friends list!"
       end
     else
       render 'edit'
