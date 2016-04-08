@@ -69,19 +69,19 @@
 			<div class ="panel panel-default">
 				<div class ="panel-heading text-center">Friends List</div>
 				<div class="panel-body">
-					<% if current_user == @user %>
-		 				<p>
-		 				<strong>Friends: </strong>
-		 				<ul>
-						<% current_user.friend_ids.each do |f| %>
-							<li>
-							<%= "#{User.find(f).username}" %>
-							<%= link_to("View Profile", profile_path(User.find(f).username)) %>
-							</li>
-						<% end %>
-		 				</ul>
-		 				</p>
+				
+	 				<p>
+	 				<strong>Friends: </strong>
+	 				<ul>
+					<% @user.friend_ids.each do |f| %>
+						<li>
+						<%= "#{User.find(f).username}" %>
+						<%= link_to("View Profile", profile_path(User.find(f).username)) %>
+						</li>
 					<% end %>
+	 				</ul>
+	 				</p>
+					
 				</div>
 			</div>
 		</div>
