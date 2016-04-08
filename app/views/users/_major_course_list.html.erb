@@ -2,24 +2,25 @@
     <% val["requirements"].each_with_index do |cur, i| %>
         <% if val["requirements"][i-1].has_key?("description") && 
             cur.has_key?("courseTitle") %>
-            <div class='panel-heading'>
-            <ul><li><%="#{cur["value"].split('/').join(" ").upcase}: 
-            #{cur["courseTitle"]}"%>
+            <ul><li><%=link_to("#{cur["value"].split('/').join(" ").upcase}: 
+            #{cur["courseTitle"]}", course_general_path(cur["value"].split('/')[0], cur["value"].split('/')[1]))%>
             <%= render partial: "/pages/add_past_course", 
         locals: {department: cur["value"].split('/')[0], coursenum: cur["value"].split('/')[1] }%></li>
-            </div>
+            
         <% elsif cur.has_key?("courseTitle") %>
-            <li><%="#{cur["value"].split('/').join(" ").upcase}: 
-            #{cur["courseTitle"]}"%>
+            <li><%=link_to("#{cur["value"].split('/').join(" ").upcase}: 
+            #{cur["courseTitle"]}", course_general_path(cur["value"].split('/')[0], cur["value"].split('/')[1]))%>
             <%= render partial: "/pages/add_past_course", 
         locals: {department: cur["value"].split('/')[0], coursenum: cur["value"].split('/')[1] }%></li>
         <% elsif cur.has_key?("description") %>
             <% if i != 0 && val["requirements"][i-1].has_key?("courseTitle") %>
+            
                 </ul>
             <% end %>
             <li><strong><%= raw strip_tags(cur["description"]) %></strong></li>
         <% end %>
         <% if i == (val["requirements"].count() - 1) && cur.has_key?("courseTitle")  %>
+                
                 </ul>
         <% end %>
     <% end %>

@@ -83,8 +83,8 @@
                                 </tr>
                                 
                             <% else %>
-                                <tr><td><%= "#{cur["value"].split('/').join(" ").upcase}: 
-                                    #{cur["courseTitle"]}"%>
+                                <tr><td><%=link_to("#{cur["value"].split('/').join(" ").upcase}: 
+            #{cur["courseTitle"]}", course_general_path(cur["value"].split('/')[0], cur["value"].split('/')[1]))%>
                                     <%= render partial: "/pages/add_past_course", 
                                 locals: {department: cur["value"].split('/')[0], coursenum: cur["value"].split('/')[1] }%></td></tr>
                             <% end %>
