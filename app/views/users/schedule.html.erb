@@ -7,13 +7,16 @@
     <% event = Array.new() %>
     <% events[i] = event %>
 <% end %>
+<% had_c = false %>
+<% has_occ = [false, false, false, false, false] %>
+<% curr_c = ["","","","",""] %>
 <% if !@current_courses[0].blank? %>
 	<% @current_courses.each_with_index do |curr, i| %>
 		<% for j in 0..5 %> 
 			<% responses[i] = HTTParty.get("http://www.sfu.ca/bin/wcm/course-outlines?#{curr.split(" ")[0]}/#{curr.split(" ")[1]}/#{curr.split(" ")[2..3].join("/")}/#{curr.split(" ")[4]}") %>
-			<% if responses[i].count != 1 %> <!-- Won't have error message -->
+			<% if responses[i].code == 200 %> <!-- Won't have error message -->
 				<% break %>
-			<% elsif responses[i].count == 1 && !responses[i].has_key?('errorMessage') %> <!-- Just one result, but not an error -->
+			<% elsif responses[i].code == 200 && !responses[i].has_key?('errorMessage') %> <!-- Just one result, but not an error -->
 				<% break %>
 			<% end %>
 		<% end %>
@@ -58,7 +61,7 @@
 			<% end %>
 		<% end %>
 	<% end %>
-	<table style="layout: fixed">
+	<table class="center">
 		<tr>
 			<th class="sched">Time</th>
 			<th class="schedlrg">Monday</th>
@@ -89,30 +92,48 @@
 			        <td class="schedlrg"> </td>
 			    <% else %>
     	            <% events[k-1].each do |course|%>
+    	                <% had_c = false %>
     	                <% c_split = course.split(", ") %>
-    			        <% if i%2 != 0 %>
+    			        <% if i%2 != 0%>
     			            <% if s_times[c_split[0].to_i][c_split[1].to_i] == ((i/2).to_s+ ":30")%>
                                 <td class="schedlrg bg-success"><%= @current_courses[c_split[0].to_i].split(" ")[2..4].join(" ").upcase %></td>
-                            <% else %>
-                                <td class="schedlrg"></td>
+                                <% had_c = true %>
+                                <% curr_c[k-1] = @current_courses[c_split[0].to_i].split(" ")[2..4].join(" ").upcase %>
+                                <% has_occ[k-1] = true %>
+                                <% break %>
+                            <% end %>
+                            <% if (((e_times[c_split[0].to_i][c_split[1].to_i].split(":")[0].to_i)) > (i/2)) && has_occ[k-1] && curr_c[k-1] == @current_courses[c_split[0].to_i].split(" ")[2..4].join(" ").upcase %>
+                                 <td class="schedlrg bg-success"><%= @current_courses[c_split[0].to_i].split(" ")[2..4].join(" ").upcase %></td>
+                                 <% had_c = true %>
+                                 <% break %>
                             <% end %>
                         <% end %>
                         <% if i%2 == 0 %>
-                            <% if ((s_times[c_split[0].to_i][c_split[1].to_i].split(":")[0].to_i) +1) == (i/2) %>
+                            <% if (((e_times[c_split[0].to_i][c_split[1].to_i].split(":")[0].to_i)) > (i/2)) && has_occ[k-1] && curr_c[k-1] == @current_courses[c_split[0].to_i].split(" ")[2..4].join(" ").upcase %>
                                  <td class="schedlrg bg-success"><%= @current_courses[c_split[0].to_i].split(" ")[2..4].join(" ").upcase %></td>
-                            <% else %>
-                                <td class="schedlrg"></td>
+                                 <% had_c = true %>
+                                 <% break %>
                             <% end %>
-                            
+                            <% if has_occ[k-1] && (((e_times[c_split[0].to_i][c_split[1].to_i].split(":")[0].to_i)) == (i/2)) && curr_c[k-1] == @current_courses[c_split[0].to_i].split(" ")[2..4].join(" ").upcase %>
+                                <td class="schedlrg bg-success"><%= @current_courses[c_split[0].to_i].split(" ")[2..4].join(" ").upcase %></td>
+                                <% had_c = true %>
+                                <% curr_c[k-1] = "" %>
+                                <% has_occ[k-1] = false %>
+                                <% break %>
+                            <% end %>
+                    
                         <% end %>
     			    <% end %>
+    			    <% if !had_c %>
+                        <td class="schedlrg"></td>
+                    <% end %>
     	        <% end %>
             <% end %>
 		</tr>
 		<% end %>
 	</table>
 <% else %>
-    <table style="layout: fixed">
+    <table class="center">
 		<tr>
 			<th class="sched">Time</th>
 			<th class="sched">Monday</th>
