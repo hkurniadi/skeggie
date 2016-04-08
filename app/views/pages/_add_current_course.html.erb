@@ -63,8 +63,10 @@
 					<% st_times.each_with_index do |time,k| %>
 						<% if ct_st_times.between?(time,end_times[k]-1) || ct_end_times.between?(time+1, end_times[k]) %>
 							<% samend_times = true %>
-							<% conflicted[con_num] = c %>
-							<% con_num +=1 %>
+							<% if !conflicted.include?("#{c}") %> 
+								<% conflicted[con_num] = c %>
+								<% con_num +=1 %>
+							<% end %>
 						<% end %>
 					<% end %>
 				<% end %>
@@ -86,7 +88,11 @@
 				<%= f.hidden_field :current_courses, :multiple => true, :value => "#{c_to_add}" %>
 			<% end %>
 			<td>
-				<div class = "current_course_button"><%= f.submit "Add to Cart"%></div>
+				<% if !current_user.past_courses.include?("#{c_to_add.split(" ")[2..3].join(" ")}") %>
+					<div class = "current_course_button"><%= f.submit "Add to Cart"%></div>
+				<% else %>
+					<strong><%= "You have already taken this course" %></strong>
+				<% end %>
 			</td>
 			<% if section[2..3]=="00" && (!(cur_url).include? "course") %>
 				<td class = "prof_grade">
@@ -130,7 +136,7 @@
 					<% end %>
 				<% end %>
 			<% elsif con_num > i %>
-				<strong><%= "and #{con.split(" ")[2..4].join(" ")} " %></strong>
+				<strong><%= "and #{con.split(" ")[2..4].join(" ").upcase} " %></strong>
 			<% else %> <!-- Already printed all conflicts -->
 				<% break %>
 			<% end %>

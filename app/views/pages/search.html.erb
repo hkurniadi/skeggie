@@ -49,7 +49,7 @@
 		<div class='panel-body'>
 			<form role="form" onSubmit="return process();" id="searchform">
 				<div class='row'>
-					<div class="form-group col-md-6 col-md-offset-3">	
+					<div class="form-group col-md-8 col-md-offset-2">	
 						<label for="semester">Term: </label>
 							<select class="form-control" name = "semester" id = "semester" form = "searchform">
 								<% sems.each do |val| %>
@@ -67,7 +67,7 @@
 				</div>
 				
 				<div class='row'>
-					<div class="form-group col-md-6 col-md-offset-3">
+					<div class="form-group col-md-8 col-md-offset-2">
 						<label for="department">Department: </label>
 				
 							<select class="form-control" name = "department" id = "department" form = "searchform" >
@@ -82,7 +82,7 @@
 					</div>
 				</div>
 				
-				<div class='row col-md-6 col-md-offset-3'>
+				<div class='row col-md-8 col-md-offset-2'>
 					<label for="wqb_0">WQB: </label><br>
 					<% if !params['wqb'].nil? && params['wqb'].include?('Writing') %>
 						<label for="wqb_0">W <input type = "checkbox" id = "wqb_0" checked> </label>
@@ -115,7 +115,7 @@
 					<% end %>
 				</div>	
 				
-				<div class='row col-md-6 col-md-offset-3'>	
+				<div class='row col-md-8 col-md-offset-2'>	
 					<div class="form-group form-inline">
 						<label for="coursenum">Course Number: </label>
 						<select class="form-control" name = "sortby" id = "sortby" form = "searchform" value="<%= !sort.nil? ? "#{sort}" : "1"%>">
@@ -174,7 +174,7 @@
 	
 	<% if !@course.blank? && !c_in_sem.blank? %>
 		
-		<table class='search_results'>
+		<table class='table table-striped search_results' style="margin: auto;" >
 	    	<tr>
 	    		<th>Course</th>
 	    		<th>Title</th>
@@ -195,7 +195,7 @@
 		   		<% end %>
 		    	<% if course_num.nil? %> <!-- Course Number isn't specified, all courses from semester appear -->
 					<tr>
-						<td class = 'dep_cid'><%= "#{department.upcase} #{val.coursenum}" %></td>
+						<td class = 'dep_cid'><%= "#{department.upcase} #{val.coursenum.upcase}" %></td>
 						<td class = 'course_title'><%= val.title %></td>
 						<td class = 'course_link'><%= link_to("View Sections", "#{cur_url.split("/")[0..5].join("/")}/#{val.coursenum}/1") %></td>
 						<td class = "wqb_specs" ><%= val.wqb %></td>
@@ -213,7 +213,7 @@
 						<% end %>
 						<% sec_response["sections"].each do |section| %>
 							<tr>
-								<td class = 'course_section'><%= "#{department.upcase} " + "#{course_num} " + section["number"] %></td>
+								<td class = 'course_section'><%= "#{department.upcase} " + "#{course_num.upcase} " + section["number"] %></td>
 								<td class = 'course_title'><%= val.title %></td>
 								<td class = 'course_link'><%= link_to("View", "#{self.request.base_url}/course/#{cur_url.split('/')[4..-2].join("/")}/#{section["number"]}" ) %></td>
 								<td class = "wqb_specs" ><%= val.wqb %></td>
@@ -226,7 +226,7 @@
 						<% end %>
 					<% else %>
 						<tr>
-							<td class = 'dep_cid'><%= "#{department.upcase} #{val.coursenum}" %></td>
+							<td class = 'dep_cid'><%= "#{department.upcase} #{val.coursenum.upcase}" %></td>
 							<td class = 'course_title'><%= val.title %></td>
 							<td class = 'course_link'><%= link_to("View Sections", "#{cur_url.split("/")[0..-4].join("/")}/#{val.coursenum}/1") %></td>
 							<td class = "wqb_specs" ><%= val.wqb %></td>
@@ -239,13 +239,11 @@
 		</table>
 			
 
-	<% if results == 0 %>
-		<p id='no_results' class='text-center'>Sorry, there are no courses matching your query.</p>
+	<% else %>
+		<div class="row col-md-8 col-md-offset-2"><p id='no_results' class='text-center'>Sorry, there are no courses matching your query.</p></div>
 	<% end %>
 	
-	<% else %>
-		<p id='no_results' class='text-center'>Sorry, there are no courses matching your query.</p>
-	<% end %>
+	
 		<!--</div>-->
 		</div>
 	</div>	

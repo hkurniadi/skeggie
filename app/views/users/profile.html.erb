@@ -5,18 +5,20 @@
 			<div class="panel panel-default">
 			  <div class="panel-heading text-center"><strong><%= @user.username %></strong></div>
 			  	<div class="panel-body">
-			  		<% if logged_in? && current_user == @user %>
-			  			<img class='img-circle img-responsive center-block' src='<%=@user.avatar_id %>' alt='Profile Picture'>
-			  			<!--<//%= render "components/avatarprofile" %>-->
-			  			
-					<% end %>
+			  		
+		  			<img class='img-circle img-responsive center-block' src='<%=@user.avatar_id %>' alt='Profile Picture'>
+		  			<!--<//%= render "components/avatarprofile" %>-->
+			  		
 					<% if !@user.first_name.nil? %>
-				  		<p><strong>Name: </strong><%= "#{@user.first_name} #{@user.last_name}"%></p>
+				  		<strong>Name: </strong><%= "#{@user.first_name} #{@user.last_name}"%><br>
 					<% end %>
-				
+					
 					<% if !@user.major.nil? %>
-				  		<p><strong>Major:</strong> <%= @user.major.split('/')[0].split('-').map(&:capitalize).join(' ') %> </p><br/>
-				  		<%= link_to("Major Requirements", user_major_path(@user.username)) %>
+				  		<strong>Major:</strong> <%= @user.major.split('/')[0].split('-').map(&:capitalize).join(' ') %> <br>
+				  		<%= link_to("Major Requirements", user_major_path(@user.username)) %><br>
+					<% end %>
+					<% if @user != current_user %>
+						<%= link_to("#{@user.username}'s Schedule", schedule_path(@user.username)) %> 
 					<% end %>
 					<% if logged_in? && current_user == @user %>
 						</br><%= link_to("Edit Profile", edit_user_path) %></br>

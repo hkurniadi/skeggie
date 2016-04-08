@@ -43,7 +43,7 @@ function process()
 	var wqb = false;
   
   if ((document.getElementById("coursenum").value != '') && (document.getElementById("coursenum").value.length <= max)) {
-    url += "/" + document.getElementById("coursenum").value.toUpperCase() + "/" + document.getElementById("sortby").value;
+    url += "/" + document.getElementById("coursenum").value.toLowerCase() + "/" + document.getElementById("sortby").value;
     var tempCourseNum = document.getElementById("coursenum").value;
   }
   if (document.getElementById("wqb_0").checked == true) {

@@ -42,18 +42,18 @@
 			    		<% end %>'></a></li>
 			    	
 					<li><%= link_to('Log out', logout_path, method: :delete) %></li>
-					
+					<li>
+						<button type="button" class="btn btn-primary btn-lg calbutton" data-toggle="modal" data-target="#schedule">
+						    <span class="glyphicon glyphicon-calendar"></span>
+						</button>
+					</li>
 					<!--<li><//%= render "components/calendar" %></li>-->
 					
 				<% else %>
 				    <li><%= link_to('Login', login_path) %></li>
 				<% end %>
 				
-				<li>
-					<button type="button" class="btn btn-primary btn-lg calbutton" data-toggle="modal" data-target="#schedule">
-					    <span class="glyphicon glyphicon-calendar"></span>
-					</button>
-				</li>
+				
 			</ul><!-- nav -->
 			
 			<ul class='nav navbar-nav navbar-right'>
