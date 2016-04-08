@@ -1,3 +1,9 @@
+<% if flash[:alert] %>  
+  <div class="alert alert-success">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong><%= flash[:alert] %></strong>
+  </div>
+<% end %>
 <div class='panel panel-default'>
     <% for i in 0..5 %>
         <% res = HTTParty.get("http://www.sfu.ca/bin/wcm/academic-calendar?2016/spring/programs/#{@user.major}") %>

@@ -36,7 +36,14 @@ class UsersController < ApplicationController
   def update
     @user = current_user
     if @user.update(user_params)
-	    redirect_to :back, alert: "Succesfully updated!"
+      if user_params.has_key?('first_name')
+	      redirect_to profile_path(@user.username), alert: "Succesfully updated!"
+      elsif user_params.has_key?('past_courses')
+        redirect_to :back, alert: "Succesfully updated past courses!"
+      
+      elsif user_params.has_key?('current_courses')
+        redirect_to :back, alert: "Succesfully updated cart!"
+      end
     else
       render 'edit'
     end

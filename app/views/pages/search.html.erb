@@ -1,3 +1,10 @@
+<% if flash[:alert] %>  
+  <div class="alert alert-success">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong><%= flash[:alert] %></strong>
+  </div>
+<% end %>
+
 <% cur_url = request.original_url %> 
 <% cur_year = Date.today.year %> <!-- Will be used to check if course is from a past year -->
 <% cur_month = Date.today.month %> <!-- Will determine semester that is in session -->

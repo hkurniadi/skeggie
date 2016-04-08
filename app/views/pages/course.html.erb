@@ -1,3 +1,9 @@
+<% if flash[:alert] %>  
+  <div class="alert alert-success">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong><%= flash[:alert] %></strong>
+  </div>
+<% end %>
 <% cururl = request.original_url %> 
 <% url_len = cururl.length() %>
 

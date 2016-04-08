@@ -1,3 +1,9 @@
+<% if flash[:alert] %>  
+  <div class="alert alert-success">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong><%= flash[:alert] %></strong>
+  </div>
+<% end %>
 <ul>
 
 <% @past_list.each_with_index do |val,i| %>
