@@ -73,11 +73,19 @@
 	 				<p>
 	 				<strong>Friends: </strong>
 	 				<ul>
-					<% @user.friend_ids.each do |f| %>
-						<li>
-						<%= "#{User.find(f).username}" %>
-						<%= link_to("View Profile", profile_path(User.find(f).username)) %>
-						</li>
+	 				<% if !@user.friend_ids.count. %>
+						<% @user.friend_ids.each do |f| %>
+							<li>
+							<%= "#{User.find(f).username}" %>
+							<%= link_to("View Profile", profile_path(User.find(f).username)) %>
+							</li>
+						<% end %>
+					<% else %>
+						<% if @user == current_user %>
+							<%= "Sorry, you have no friends." %>
+						<% else %>
+							<%= "#{@user.username} has no friends." %>
+						<% end %>
 					<% end %>
 	 				</ul>
 	 				</p>
